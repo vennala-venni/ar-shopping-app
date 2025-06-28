@@ -9,7 +9,7 @@ classDiagram
         -password: String
         -phoneNumber: String
         -address: Address
-        -userType: UserType
+        -userType: String
         +register()
         +login()
         +logout()
@@ -18,7 +18,7 @@ classDiagram
 
     class Admin {
         -adminId: String
-        -permissions: List<Permission>
+        -permissions: List
         +manageProducts()
         +viewOrders()
         +generateReports()
@@ -40,7 +40,7 @@ classDiagram
         -price: Double
         -category: Category
         -brand: String
-        -images: List<Image>
+        -images: List
         -arModel: ARModel
         -stockQuantity: Integer
         +getDetails()
@@ -58,7 +58,7 @@ classDiagram
     class Cart {
         -cartId: String
         -userId: String
-        -items: List<CartItem>
+        -items: List
         -totalAmount: Double
         +addItem()
         +removeItem()
@@ -80,10 +80,10 @@ classDiagram
         -orderId: String
         -userId: String
         -orderDate: DateTime
-        -status: OrderStatus
+        -status: String
         -totalAmount: Double
         -shippingAddress: Address
-        -items: List<OrderItem>
+        -items: List
         +placeOrder()
         +cancelOrder()
         +trackOrder()
@@ -102,8 +102,8 @@ classDiagram
         -paymentId: String
         -orderId: String
         -amount: Double
-        -paymentMethod: PaymentMethod
-        -status: PaymentStatus
+        -paymentMethod: String
+        -status: String
         -transactionDate: DateTime
         +processPayment()
         +refund()
@@ -145,8 +145,8 @@ classDiagram
         -chatId: String
         -userId: String
         -supportId: String
-        -messages: List<Message>
-        -status: ChatStatus
+        -messages: List
+        -status: String
         +sendMessage()
         +endChat()
     }
@@ -156,63 +156,16 @@ classDiagram
         -senderId: String
         -content: String
         -timestamp: DateTime
-        -type: MessageType
+        -type: String
     }
 
     class Report {
         -reportId: String
-        -type: ReportType
+        -type: String
         -data: Object
         -generatedDate: DateTime
         +generateReport()
         +exportReport()
-    }
-
-    enum UserType {
-        CUSTOMER
-        ADMIN
-        SUPPORT
-    }
-
-    enum OrderStatus {
-        PENDING
-        CONFIRMED
-        SHIPPED
-        DELIVERED
-        CANCELLED
-    }
-
-    enum PaymentStatus {
-        PENDING
-        COMPLETED
-        FAILED
-        REFUNDED
-    }
-
-    enum PaymentMethod {
-        CREDIT_CARD
-        DEBIT_CARD
-        PAYPAL
-        BANK_TRANSFER
-    }
-
-    enum ChatStatus {
-        ACTIVE
-        CLOSED
-        PENDING
-    }
-
-    enum MessageType {
-        TEXT
-        IMAGE
-        FILE
-    }
-
-    enum ReportType {
-        SALES
-        INVENTORY
-        USER_ACTIVITY
-        REVENUE
     }
 
     %% Relationships
@@ -265,5 +218,10 @@ This class diagram represents the core entities and their relationships in the A
 - AR models are associated with products
 - Support staff handle customer chats
 
-### Enums:
-- User types, order statuses, payment statuses, and other enumerated values 
+### Data Types:
+- **String**: Text data (IDs, names, descriptions)
+- **Double**: Decimal numbers (prices, amounts)
+- **Integer**: Whole numbers (quantities, ratings)
+- **DateTime**: Date and time values
+- **List**: Collections of objects
+- **Object**: Complex data structures 
