@@ -8,7 +8,6 @@ classDiagram
         -email: String
         -password: String
         -phoneNumber: String
-        -address: Address
         -userType: String
         +register()
         +login()
@@ -18,7 +17,7 @@ classDiagram
 
     class Admin {
         -adminId: String
-        -permissions: List
+        -permissions: String
         +manageProducts()
         +viewOrders()
         +generateReports()
@@ -37,12 +36,9 @@ classDiagram
         -productId: String
         -name: String
         -description: String
-        -price: Double
-        -category: Category
+        -price: Number
         -brand: String
-        -images: List
-        -arModel: ARModel
-        -stockQuantity: Integer
+        -stockQuantity: Number
         +getDetails()
         +updateStock()
         +isAvailable()
@@ -58,8 +54,7 @@ classDiagram
     class Cart {
         -cartId: String
         -userId: String
-        -items: List
-        -totalAmount: Double
+        -totalAmount: Number
         +addItem()
         +removeItem()
         +updateQuantity()
@@ -70,8 +65,8 @@ classDiagram
     class CartItem {
         -itemId: String
         -productId: String
-        -quantity: Integer
-        -price: Double
+        -quantity: Number
+        -price: Number
         +updateQuantity()
         +calculateSubtotal()
     }
@@ -79,11 +74,9 @@ classDiagram
     class Order {
         -orderId: String
         -userId: String
-        -orderDate: DateTime
+        -orderDate: String
         -status: String
-        -totalAmount: Double
-        -shippingAddress: Address
-        -items: List
+        -totalAmount: Number
         +placeOrder()
         +cancelOrder()
         +trackOrder()
@@ -93,18 +86,17 @@ classDiagram
     class OrderItem {
         -itemId: String
         -productId: String
-        -quantity: Integer
-        -price: Double
+        -quantity: Number
+        -price: Number
         +calculateSubtotal()
     }
 
     class Payment {
         -paymentId: String
         -orderId: String
-        -amount: Double
+        -amount: Number
         -paymentMethod: String
         -status: String
-        -transactionDate: DateTime
         +processPayment()
         +refund()
         +getStatus()
@@ -125,9 +117,9 @@ classDiagram
         -feedbackId: String
         -userId: String
         -productId: String
-        -rating: Integer
+        -rating: Number
         -comment: String
-        -date: DateTime
+        -date: String
         +submitFeedback()
         +updateFeedback()
     }
@@ -145,7 +137,6 @@ classDiagram
         -chatId: String
         -userId: String
         -supportId: String
-        -messages: List
         -status: String
         +sendMessage()
         +endChat()
@@ -155,25 +146,23 @@ classDiagram
         -messageId: String
         -senderId: String
         -content: String
-        -timestamp: DateTime
+        -timestamp: String
         -type: String
     }
 
     class Report {
         -reportId: String
         -type: String
-        -data: Object
-        -generatedDate: DateTime
+        -data: String
+        -generatedDate: String
         +generateReport()
         +exportReport()
     }
 
-    %% Relationships
     User ||--o{ Order : places
     User ||--o{ Feedback : submits
     User ||--o{ Chat : participates
     User ||--|| Cart : has
-    User ||--o{ Address : has
 
     Admin ||--o{ Report : generates
     Admin ||--o{ Product : manages
@@ -190,7 +179,6 @@ classDiagram
     Cart ||--o{ CartItem : contains
     Order ||--o{ OrderItem : contains
     Order ||--|| Payment : has
-    Order ||--|| Address : shipped_to
 
     Chat ||--o{ Message : contains
 
@@ -214,14 +202,10 @@ This class diagram represents the core entities and their relationships in the A
 ### Key Relationships:
 - Users can place multiple orders and submit feedback
 - Products can be in multiple carts and orders
-- Orders are linked to payments and shipping addresses
+- Orders are linked to payments
 - AR models are associated with products
 - Support staff handle customer chats
 
 ### Data Types:
 - **String**: Text data (IDs, names, descriptions)
-- **Double**: Decimal numbers (prices, amounts)
-- **Integer**: Whole numbers (quantities, ratings)
-- **DateTime**: Date and time values
-- **List**: Collections of objects
-- **Object**: Complex data structures 
+- **Number**: Numeric values (prices, quantities, ratings) 
