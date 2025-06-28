@@ -4,73 +4,73 @@
 graph TB
     subgraph "Frontend Components"
         subgraph "Mobile Application"
-            MA[Mobile App<br/>React Native/Flutter]
-            AR_UI[AR Interface<br/>AR Framework Integration]
+            MA[Mobile App]
+            AR_UI[AR Interface]
         end
         
         subgraph "Web Application"
-            WA[Web App<br/>React/Angular]
-            ADMIN_UI[Admin Dashboard<br/>Management Interface]
-            SUPPORT_UI[Support Portal<br/>Customer Service]
+            WA[Web App]
+            ADMIN_UI[Admin Dashboard]
+            SUPPORT_UI[Support Interface]
         end
     end
 
-    subgraph "API Gateway Layer"
-        API_GW[API Gateway<br/>Request Routing & Auth]
-        AUTH_GW[Authentication Gateway<br/>JWT & OAuth]
-        RATE_LIMITER[Rate Limiter<br/>Request Throttling]
+    subgraph "API Gateway Components"
+        API_GW[API Gateway]
+        AUTH_GW[Authentication Gateway]
+        RATE_LIMITER[Rate Limiter]
     end
 
-    subgraph "Core Services"
+    subgraph "Core Service Components"
         subgraph "User Management"
-            AUTH_SVC[Authentication Service<br/>Login & Registration]
-            USER_SVC[User Service<br/>Profile Management]
+            AUTH_SVC[Authentication Service]
+            USER_SVC[User Service]
         end
         
         subgraph "Product Management"
-            PRODUCT_SVC[Product Service<br/>Catalog Operations]
-            SEARCH_SVC[Search Service<br/>Product Discovery]
-            INVENTORY_SVC[Inventory Service<br/>Stock Management]
+            PRODUCT_SVC[Product Service]
+            SEARCH_SVC[Search Service]
+            INVENTORY_SVC[Inventory Service]
         end
         
         subgraph "Shopping Experience"
-            CART_SVC[Cart Service<br/>Shopping Cart]
-            ORDER_SVC[Order Service<br/>Order Processing]
-            PAYMENT_SVC[Payment Service<br/>Transaction Handling]
+            CART_SVC[Cart Service]
+            ORDER_SVC[Order Service]
+            PAYMENT_SVC[Payment Service]
         end
         
         subgraph "AR & Media"
-            AR_SVC[AR Service<br/>3D Model Management]
-            MEDIA_SVC[Media Service<br/>Image & Video Handling]
+            AR_SVC[AR Service]
+            MEDIA_SVC[Media Service]
         end
         
         subgraph "Support & Communication"
-            CHAT_SVC[Chat Service<br/>Real-time Support]
-            NOTIFICATION_SVC[Notification Service<br/>Alerts & Messages]
+            CHAT_SVC[Chat Service]
+            NOTIFICATION_SVC[Notification Service]
         end
     end
 
-    subgraph "Data Storage"
+    subgraph "Data Components"
         subgraph "Primary Databases"
-            USER_DB[(User Database<br/>PostgreSQL)]
-            PRODUCT_DB[(Product Database<br/>PostgreSQL)]
-            ORDER_DB[(Order Database<br/>PostgreSQL)]
-            PAYMENT_DB[(Payment Database<br/>PostgreSQL)]
+            USER_DB[(User Database)]
+            PRODUCT_DB[(Product Database)]
+            ORDER_DB[(Order Database)]
+            PAYMENT_DB[(Payment Database)]
         end
         
         subgraph "Specialized Storage"
-            REDIS[(Redis Cache<br/>Session & Cart Data)]
-            ELASTICSEARCH[(Elasticsearch<br/>Search Index)]
-            AR_STORAGE[(AR Storage<br/>3D Models & Assets)]
-            MEDIA_STORAGE[(Media Storage<br/>Images & Videos)]
+            REDIS[(Redis Cache)]
+            ELASTICSEARCH[(Elasticsearch)]
+            AR_STORAGE[(AR Storage)]
+            MEDIA_STORAGE[(Media Storage)]
         end
     end
 
-    subgraph "External Integrations"
-        PG[Payment Gateway<br/>Stripe/PayPal]
-        SMTP[Email Service<br/>SendGrid/AWS SES]
-        SMS[SMS Service<br/>Twilio]
-        PUSH[Push Notifications<br/>Firebase/APNS]
+    subgraph "External Components"
+        PG[Payment Gateway]
+        SMTP[Email Service]
+        SMS[SMS Service]
+        PUSH[Push Notifications]
     end
 
     %% Frontend to API Gateway connections
@@ -132,69 +132,68 @@ graph TB
     class PG,SMTP,SMS,PUSH external
 ```
 
-## Component Architecture Description
+## Component Diagram Description
 
-### **Software Components & Their Responsibilities:**
+### **Software Components & Their Interfaces:**
 
 #### **1. Frontend Components**
-- **Mobile App**: React Native/Flutter application for iOS/Android
-- **AR Interface**: AR framework integration (ARKit/ARCore)
-- **Web App**: React/Angular web application
-- **Admin Dashboard**: Management interface for administrators
-- **Support Portal**: Customer service interface
+- **Mobile App**: Main mobile application interface
+- **AR Interface**: Augmented reality user interface
+- **Web App**: Customer-facing web interface
+- **Admin Dashboard**: Administrative management interface
+- **Support Interface**: Customer support portal
 
-#### **2. API Gateway Layer**
-- **API Gateway**: Central entry point, request routing, load balancing
-- **Authentication Gateway**: JWT token validation, OAuth integration
-- **Rate Limiter**: Request throttling and abuse prevention
+#### **2. API Gateway Components**
+- **API Gateway**: Central entry point for all requests
+- **Authentication Gateway**: Handles authentication and authorization
+- **Rate Limiter**: Prevents API abuse
 
-#### **3. Core Services (Microservices)**
+#### **3. Core Service Components**
 
 ##### **User Management:**
-- **Authentication Service**: User login, registration, password management
-- **User Service**: Profile management, user preferences, account settings
+- **Authentication Service**: User login, registration, JWT management
+- **User Service**: User profile and account management
 
 ##### **Product Management:**
-- **Product Service**: Product CRUD operations, catalog management
-- **Search Service**: Product search, filtering, recommendations
-- **Inventory Service**: Stock management, availability tracking
+- **Product Service**: Product CRUD operations
+- **Search Service**: Product search and filtering
+- **Inventory Service**: Stock management and availability
 
 ##### **Shopping Experience:**
-- **Cart Service**: Shopping cart operations, item management
-- **Order Service**: Order processing, status tracking, fulfillment
-- **Payment Service**: Payment processing, transaction management
+- **Cart Service**: Shopping cart management
+- **Order Service**: Order processing and tracking
+- **Payment Service**: Payment processing and transactions
 
 ##### **AR & Media:**
-- **AR Service**: 3D model management, AR session handling
-- **Media Service**: Image/video processing, storage management
+- **AR Service**: Augmented reality functionality
+- **Media Service**: Image and video management
 
 ##### **Support & Communication:**
 - **Chat Service**: Real-time customer support chat
-- **Notification Service**: Email, SMS, push notifications
+- **Notification Service**: Push notifications and alerts
 
-#### **4. Data Storage**
-- **Primary Databases**: PostgreSQL for structured data
-- **Redis Cache**: Session data, shopping cart, temporary storage
-- **Elasticsearch**: Product search indexing
-- **AR Storage**: 3D models and AR assets
-- **Media Storage**: Images, videos, documents
+#### **4. Data Components**
+- **Primary Databases**: User, Product, Order, Payment data
+- **Redis Cache**: Session data and temporary storage
+- **Elasticsearch**: Product search and indexing
+- **AR Storage**: 3D models for AR experiences
+- **Media Storage**: Images, videos, and documents
 
-#### **5. External Integrations**
-- **Payment Gateway**: Stripe/PayPal for payment processing
-- **Email Service**: SendGrid/AWS SES for email delivery
-- **SMS Service**: Twilio for text messages
-- **Push Notifications**: Firebase/APNS for mobile notifications
+#### **5. External Components**
+- **Payment Gateway**: Third-party payment processing
+- **Email Service**: Email delivery service
+- **SMS Service**: Text message delivery service
+- **Push Notifications**: Mobile push notification service
 
-### **Key Component Interactions:**
+### **Component Interfaces & Relationships:**
 
-1. **Frontend** → **API Gateway** → **Core Services**
-2. **Services** → **Databases** (data persistence)
-3. **Services** → **External APIs** (third-party integrations)
-4. **Authentication** → **All Services** (security)
+1. **Frontend Components** → **API Gateway Components**
+2. **API Gateway Components** → **Core Service Components**
+3. **Core Service Components** → **Data Components**
+4. **Core Service Components** → **External Components**
 
-### **Architecture Benefits:**
-- **Modular Design**: Independent, scalable components
-- **Technology Flexibility**: Different tech stacks per component
-- **Scalability**: Horizontal scaling of individual services
-- **Maintainability**: Clear separation of concerns
-- **Security**: Centralized authentication and authorization 
+### **Key Component Characteristics:**
+- **Modular Design**: Each component has a single responsibility
+- **Loose Coupling**: Components interact through well-defined interfaces
+- **High Cohesion**: Related functionality is grouped together
+- **Scalability**: Components can be scaled independently 
