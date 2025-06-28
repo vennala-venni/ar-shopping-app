@@ -2,360 +2,212 @@
 
 ```mermaid
 graph TB
-    subgraph "Client Devices"
+    subgraph "Client Layer"
         subgraph "Mobile Devices"
-            IOS[iOS Devices]
-            ANDROID[Android Devices]
-            TABLETS[Tablets]
+            IOS[iOS Devices<br/>Mobile App + AR Interface]
+            ANDROID[Android Devices<br/>Mobile App + AR Interface]
         end
         
         subgraph "Web Clients"
-            DESKTOP[Desktop Browsers]
-            LAPTOP[Laptop Browsers]
-            MOBILE_WEB[Mobile Web Browsers]
+            DESKTOP[Desktop/Laptop<br/>Web Browser]
+            MOBILE_WEB[Mobile Web<br/>Browser]
         end
     end
 
-    subgraph "CDN & Edge"
-        CDN_EDGE[CDN Edge Servers]
-        STATIC_ASSETS[Static Assets]
-        AR_MODELS[AR Models CDN]
+    subgraph "Edge Layer"
+        CDN[CDN Edge Servers<br/>Static Assets + AR Models]
     end
 
     subgraph "Load Balancer Layer"
-        LB_PRIMARY[Primary Load Balancer]
-        LB_SECONDARY[Secondary Load Balancer]
-        WAF[Web Application Firewall]
+        LB[Load Balancer<br/>Traffic Distribution + WAF]
     end
 
-    subgraph "API Gateway Cluster"
-        subgraph "API Gateway Instances"
-            API_GW_1[API Gateway 1]
-            API_GW_2[API Gateway 2]
-            API_GW_3[API Gateway 3]
+    subgraph "Application Layer"
+        subgraph "API Gateway Cluster"
+            API_GW[API Gateway<br/>Authentication + Rate Limiting]
         end
         
-        subgraph "Gateway Services"
-            AUTH_GW[Auth Gateway]
-            RATE_LIMITER[Rate Limiter]
-            CORS[CORS Handler]
-        end
-    end
-
-    subgraph "Application Servers"
-        subgraph "User Management Cluster"
-            AUTH_SVC_1[Auth Service 1]
-            AUTH_SVC_2[Auth Service 2]
-            USER_SVC_1[User Service 1]
-            USER_SVC_2[User Service 2]
-        end
-        
-        subgraph "Product Management Cluster"
-            PRODUCT_SVC_1[Product Service 1]
-            PRODUCT_SVC_2[Product Service 2]
-            SEARCH_SVC_1[Search Service 1]
-            SEARCH_SVC_2[Search Service 2]
-            INVENTORY_SVC_1[Inventory Service 1]
-            INVENTORY_SVC_2[Inventory Service 2]
-        end
-        
-        subgraph "Shopping Cluster"
-            CART_SVC_1[Cart Service 1]
-            CART_SVC_2[Cart Service 2]
-            ORDER_SVC_1[Order Service 1]
-            ORDER_SVC_2[Order Service 2]
-            PAYMENT_SVC_1[Payment Service 1]
-            PAYMENT_SVC_2[Payment Service 2]
-        end
-        
-        subgraph "AR & Media Cluster"
-            AR_SVC_1[AR Service 1]
-            AR_SVC_2[AR Service 2]
-            MEDIA_SVC_1[Media Service 1]
-            MEDIA_SVC_2[Media Service 2]
-        end
-        
-        subgraph "Support Cluster"
-            CHAT_SVC_1[Chat Service 1]
-            CHAT_SVC_2[Chat Service 2]
-            NOTIFICATION_SVC_1[Notification Service 1]
-            NOTIFICATION_SVC_2[Notification Service 2]
-        end
-        
-        subgraph "Analytics Cluster"
-            ANALYTICS_SVC_1[Analytics Service 1]
-            ANALYTICS_SVC_2[Analytics Service 2]
-            REPORT_SVC_1[Report Service 1]
-            REPORT_SVC_2[Report Service 2]
+        subgraph "Microservices Cluster"
+            subgraph "User Services"
+                AUTH_SVC[Auth Service<br/>User Authentication]
+                USER_SVC[User Service<br/>Profile Management]
+            end
+            
+            subgraph "Product Services"
+                PRODUCT_SVC[Product Service<br/>Catalog Management]
+                SEARCH_SVC[Search Service<br/>Product Search]
+                INVENTORY_SVC[Inventory Service<br/>Stock Management]
+            end
+            
+            subgraph "Shopping Services"
+                CART_SVC[Cart Service<br/>Shopping Cart]
+                ORDER_SVC[Order Service<br/>Order Processing]
+                PAYMENT_SVC[Payment Service<br/>Payment Processing]
+            end
+            
+            subgraph "AR Services"
+                AR_SVC[AR Service<br/>Augmented Reality]
+                MEDIA_SVC[Media Service<br/>Media Management]
+            end
+            
+            subgraph "Support Services"
+                CHAT_SVC[Chat Service<br/>Customer Support]
+                NOTIFICATION_SVC[Notification Service<br/>Alerts & Emails]
+            end
         end
     end
 
-    subgraph "Database Layer"
-        subgraph "Primary Database Cluster"
-            USER_DB_MASTER[(User DB Master)]
-            USER_DB_SLAVE_1[(User DB Slave 1)]
-            USER_DB_SLAVE_2[(User DB Slave 2)]
-            
-            PRODUCT_DB_MASTER[(Product DB Master)]
-            PRODUCT_DB_SLAVE_1[(Product DB Slave 1)]
-            PRODUCT_DB_SLAVE_2[(Product DB Slave 2)]
-            
-            ORDER_DB_MASTER[(Order DB Master)]
-            ORDER_DB_SLAVE_1[(Order DB Slave 1)]
-            ORDER_DB_SLAVE_2[(Order DB Slave 2)]
-            
-            PAYMENT_DB_MASTER[(Payment DB Master)]
-            PAYMENT_DB_SLAVE_1[(Payment DB Slave 1)]
-            PAYMENT_DB_SLAVE_2[(Payment DB Slave 2)]
+    subgraph "Data Layer"
+        subgraph "Primary Databases"
+            USER_DB[(User Database<br/>User Accounts & Profiles)]
+            PRODUCT_DB[(Product Database<br/>Product Catalog)]
+            ORDER_DB[(Order Database<br/>Orders & Tracking)]
+            PAYMENT_DB[(Payment Database<br/>Transactions)]
         end
         
         subgraph "Specialized Storage"
-            REDIS_CLUSTER[(Redis Cluster)]
-            ELASTICSEARCH_CLUSTER[(Elasticsearch Cluster)]
-            AR_STORAGE_CLUSTER[(AR Storage Cluster)]
-            MEDIA_STORAGE_CLUSTER[(Media Storage Cluster)]
+            REDIS[(Redis Cache<br/>Sessions & Cart Data)]
+            ELASTICSEARCH[(Elasticsearch<br/>Product Search Index)]
+            AR_STORAGE[(AR Storage<br/>3D Models & Assets)]
+            MEDIA_STORAGE[(Media Storage<br/>Images & Videos)]
         end
     end
 
     subgraph "External Services"
-        PG[Payment Gateway]
-        SMTP[SMTP Provider]
-        SMS[SMS Provider]
-        PUSH_NOTIFICATIONS[Push Notification Service]
+        PG[Payment Gateway<br/>Stripe/PayPal]
+        SMTP[SMTP Provider<br/>Email Service]
+        SMS[SMS Provider<br/>Text Messages]
+        PUSH[Push Service<br/>Mobile Notifications]
     end
 
-    subgraph "Monitoring & Logging"
-        MONITORING[Monitoring System]
-        LOGGING[Logging System]
-        ALERTING[Alerting System]
+    subgraph "Monitoring Layer"
+        MONITORING[Monitoring System<br/>Performance & Health]
+        LOGGING[Logging System<br/>Centralized Logs]
     end
 
-    %% Client to CDN connections
-    IOS --> CDN_EDGE
-    ANDROID --> CDN_EDGE
-    TABLETS --> CDN_EDGE
-    DESKTOP --> CDN_EDGE
-    LAPTOP --> CDN_EDGE
-    MOBILE_WEB --> CDN_EDGE
+    %% Client to Edge connections
+    IOS --> CDN
+    ANDROID --> CDN
+    DESKTOP --> CDN
+    MOBILE_WEB --> CDN
 
-    %% CDN to Load Balancer
-    CDN_EDGE --> LB_PRIMARY
-    CDN_EDGE --> LB_SECONDARY
-    LB_PRIMARY --> WAF
-    LB_SECONDARY --> WAF
+    %% Edge to Load Balancer
+    CDN --> LB
 
     %% Load Balancer to API Gateway
-    WAF --> API_GW_1
-    WAF --> API_GW_2
-    WAF --> API_GW_3
-
-    %% API Gateway internal connections
-    API_GW_1 --> AUTH_GW
-    API_GW_2 --> AUTH_GW
-    API_GW_3 --> AUTH_GW
-    API_GW_1 --> RATE_LIMITER
-    API_GW_2 --> RATE_LIMITER
-    API_GW_3 --> RATE_LIMITER
-    API_GW_1 --> CORS
-    API_GW_2 --> CORS
-    API_GW_3 --> CORS
+    LB --> API_GW
 
     %% API Gateway to Services
-    AUTH_GW --> AUTH_SVC_1
-    AUTH_GW --> AUTH_SVC_2
-    AUTH_GW --> USER_SVC_1
-    AUTH_GW --> USER_SVC_2
+    API_GW --> AUTH_SVC
+    API_GW --> USER_SVC
+    API_GW --> PRODUCT_SVC
+    API_GW --> SEARCH_SVC
+    API_GW --> INVENTORY_SVC
+    API_GW --> CART_SVC
+    API_GW --> ORDER_SVC
+    API_GW --> PAYMENT_SVC
+    API_GW --> AR_SVC
+    API_GW --> MEDIA_SVC
+    API_GW --> CHAT_SVC
+    API_GW --> NOTIFICATION_SVC
 
-    %% Service to Service connections
-    AUTH_SVC_1 --> USER_SVC_1
-    AUTH_SVC_2 --> USER_SVC_2
-    USER_SVC_1 --> PRODUCT_SVC_1
-    USER_SVC_2 --> PRODUCT_SVC_2
-
-    %% Product Management connections
-    PRODUCT_SVC_1 --> SEARCH_SVC_1
-    PRODUCT_SVC_2 --> SEARCH_SVC_2
-    PRODUCT_SVC_1 --> INVENTORY_SVC_1
-    PRODUCT_SVC_2 --> INVENTORY_SVC_2
-
-    %% Shopping connections
-    CART_SVC_1 --> PRODUCT_SVC_1
-    CART_SVC_2 --> PRODUCT_SVC_2
-    ORDER_SVC_1 --> CART_SVC_1
-    ORDER_SVC_2 --> CART_SVC_2
-    ORDER_SVC_1 --> PAYMENT_SVC_1
-    ORDER_SVC_2 --> PAYMENT_SVC_2
-
-    %% AR and Media connections
-    AR_SVC_1 --> MEDIA_SVC_1
-    AR_SVC_2 --> MEDIA_SVC_2
-
-    %% Support connections
-    CHAT_SVC_1 --> NOTIFICATION_SVC_1
-    CHAT_SVC_2 --> NOTIFICATION_SVC_2
-
-    %% Database connections
-    AUTH_SVC_1 --> USER_DB_MASTER
-    AUTH_SVC_2 --> USER_DB_MASTER
-    USER_SVC_1 --> USER_DB_SLAVE_1
-    USER_SVC_2 --> USER_DB_SLAVE_2
-
-    PRODUCT_SVC_1 --> PRODUCT_DB_MASTER
-    PRODUCT_SVC_2 --> PRODUCT_DB_MASTER
-    SEARCH_SVC_1 --> ELASTICSEARCH_CLUSTER
-    SEARCH_SVC_2 --> ELASTICSEARCH_CLUSTER
-
-    CART_SVC_1 --> REDIS_CLUSTER
-    CART_SVC_2 --> REDIS_CLUSTER
-    ORDER_SVC_1 --> ORDER_DB_MASTER
-    ORDER_SVC_2 --> ORDER_DB_MASTER
-    PAYMENT_SVC_1 --> PAYMENT_DB_MASTER
-    PAYMENT_SVC_2 --> PAYMENT_DB_MASTER
-
-    AR_SVC_1 --> AR_STORAGE_CLUSTER
-    AR_SVC_2 --> AR_STORAGE_CLUSTER
-    MEDIA_SVC_1 --> MEDIA_STORAGE_CLUSTER
-    MEDIA_SVC_2 --> MEDIA_STORAGE_CLUSTER
-
-    CHAT_SVC_1 --> REDIS_CLUSTER
-    CHAT_SVC_2 --> REDIS_CLUSTER
+    %% Service to Database connections
+    AUTH_SVC --> USER_DB
+    USER_SVC --> USER_DB
+    PRODUCT_SVC --> PRODUCT_DB
+    SEARCH_SVC --> ELASTICSEARCH
+    INVENTORY_SVC --> PRODUCT_DB
+    CART_SVC --> REDIS
+    ORDER_SVC --> ORDER_DB
+    PAYMENT_SVC --> PAYMENT_DB
+    AR_SVC --> AR_STORAGE
+    MEDIA_SVC --> MEDIA_STORAGE
+    CHAT_SVC --> REDIS
+    NOTIFICATION_SVC --> REDIS
 
     %% External service connections
-    PAYMENT_SVC_1 --> PG
-    PAYMENT_SVC_2 --> PG
-    NOTIFICATION_SVC_1 --> SMTP
-    NOTIFICATION_SVC_2 --> SMTP
-    NOTIFICATION_SVC_1 --> SMS
-    NOTIFICATION_SVC_2 --> SMS
-    NOTIFICATION_SVC_1 --> PUSH_NOTIFICATIONS
-    NOTIFICATION_SVC_2 --> PUSH_NOTIFICATIONS
+    PAYMENT_SVC --> PG
+    NOTIFICATION_SVC --> SMTP
+    NOTIFICATION_SVC --> SMS
+    NOTIFICATION_SVC --> PUSH
 
     %% Monitoring connections
-    MONITORING --> AUTH_SVC_1
-    MONITORING --> AUTH_SVC_2
-    MONITORING --> PRODUCT_SVC_1
-    MONITORING --> PRODUCT_SVC_2
-    MONITORING --> ORDER_SVC_1
-    MONITORING --> ORDER_SVC_2
-    LOGGING --> AUTH_SVC_1
-    LOGGING --> AUTH_SVC_2
-    LOGGING --> PRODUCT_SVC_1
-    LOGGING --> PRODUCT_SVC_2
-    LOGGING --> ORDER_SVC_1
-    LOGGING --> ORDER_SVC_2
-
-    %% Database replication
-    USER_DB_MASTER -.-> USER_DB_SLAVE_1
-    USER_DB_MASTER -.-> USER_DB_SLAVE_2
-    PRODUCT_DB_MASTER -.-> PRODUCT_DB_SLAVE_1
-    PRODUCT_DB_MASTER -.-> PRODUCT_DB_SLAVE_2
-    ORDER_DB_MASTER -.-> ORDER_DB_SLAVE_1
-    ORDER_DB_MASTER -.-> ORDER_DB_SLAVE_2
-    PAYMENT_DB_MASTER -.-> PAYMENT_DB_SLAVE_1
-    PAYMENT_DB_MASTER -.-> PAYMENT_DB_SLAVE_2
+    MONITORING --> AUTH_SVC
+    MONITORING --> PRODUCT_SVC
+    MONITORING --> ORDER_SVC
+    LOGGING --> AUTH_SVC
+    LOGGING --> PRODUCT_SVC
+    LOGGING --> ORDER_SVC
 
     %% Component styling
-    classDef client fill:#e8f5e8
-    classDef cdn fill:#fff3e0
-    classDef loadbalancer fill:#fce4ec
-    classDef gateway fill:#e1f5fe
-    classDef service fill:#f3e5f5
-    classDef database fill:#e0f2f1
-    classDef external fill:#fafafa
-    classDef monitoring fill:#fff8e1
+    classDef client fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef edge fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef loadbalancer fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    classDef gateway fill:#e1f5fe,stroke:#0277bd,stroke-width:2px
+    classDef service fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef database fill:#e0f2f1,stroke:#00695c,stroke-width:2px
+    classDef external fill:#fafafa,stroke:#424242,stroke-width:2px
+    classDef monitoring fill:#fff8e1,stroke:#f57f17,stroke-width:2px
 
-    class IOS,ANDROID,TABLETS,DESKTOP,LAPTOP,MOBILE_WEB client
-    class CDN_EDGE,STATIC_ASSETS,AR_MODELS cdn
-    class LB_PRIMARY,LB_SECONDARY,WAF loadbalancer
-    class API_GW_1,API_GW_2,API_GW_3,AUTH_GW,RATE_LIMITER,CORS gateway
-    class AUTH_SVC_1,AUTH_SVC_2,USER_SVC_1,USER_SVC_2,PRODUCT_SVC_1,PRODUCT_SVC_2,SEARCH_SVC_1,SEARCH_SVC_2,INVENTORY_SVC_1,INVENTORY_SVC_2,CART_SVC_1,CART_SVC_2,ORDER_SVC_1,ORDER_SVC_2,PAYMENT_SVC_1,PAYMENT_SVC_2,AR_SVC_1,AR_SVC_2,MEDIA_SVC_1,MEDIA_SVC_2,CHAT_SVC_1,CHAT_SVC_2,NOTIFICATION_SVC_1,NOTIFICATION_SVC_2,ANALYTICS_SVC_1,ANALYTICS_SVC_2,REPORT_SVC_1,REPORT_SVC_2 service
-    class USER_DB_MASTER,USER_DB_SLAVE_1,USER_DB_SLAVE_2,PRODUCT_DB_MASTER,PRODUCT_DB_SLAVE_1,PRODUCT_DB_SLAVE_2,ORDER_DB_MASTER,ORDER_DB_SLAVE_1,ORDER_DB_SLAVE_2,PAYMENT_DB_MASTER,PAYMENT_DB_SLAVE_1,PAYMENT_DB_SLAVE_2,REDIS_CLUSTER,ELASTICSEARCH_CLUSTER,AR_STORAGE_CLUSTER,MEDIA_STORAGE_CLUSTER database
-    class PG,SMTP,SMS,PUSH_NOTIFICATIONS external
-    class MONITORING,LOGGING,ALERTING monitoring
+    class IOS,ANDROID,DESKTOP,MOBILE_WEB client
+    class CDN edge
+    class LB loadbalancer
+    class API_GW gateway
+    class AUTH_SVC,USER_SVC,PRODUCT_SVC,SEARCH_SVC,INVENTORY_SVC,CART_SVC,ORDER_SVC,PAYMENT_SVC,AR_SVC,MEDIA_SVC,CHAT_SVC,NOTIFICATION_SVC service
+    class USER_DB,PRODUCT_DB,ORDER_DB,PAYMENT_DB,REDIS,ELASTICSEARCH,AR_STORAGE,MEDIA_STORAGE database
+    class PG,SMTP,SMS,PUSH external
+    class MONITORING,LOGGING monitoring
 ```
 
 ## Deployment Architecture Description
 
-### Client Devices:
+### **Hardware Nodes & Software Deployment:**
 
-#### **Mobile Devices:**
-- **iOS Devices**: iPhones and iPads with AR capabilities
-- **Android Devices**: Android phones and tablets with AR support
-- **Tablets**: Large-screen devices for enhanced AR experience
+#### **1. Client Layer (End User Devices)**
+- **iOS Devices**: Mobile App + AR Interface
+- **Android Devices**: Mobile App + AR Interface  
+- **Desktop/Laptop**: Web Browser
+- **Mobile Web**: Browser-based access
 
-#### **Web Clients:**
-- **Desktop Browsers**: Full-featured web interface
-- **Laptop Browsers**: Portable web access
-- **Mobile Web Browsers**: Web access on mobile devices
+#### **2. Edge Layer (CDN)**
+- **CDN Edge Servers**: Static assets, AR models, global content delivery
 
-### CDN & Edge Layer:
-- **CDN Edge Servers**: Global content delivery for fast access
-- **Static Assets**: Images, CSS, JavaScript files
-- **AR Models CDN**: Distributed 3D model delivery
+#### **3. Load Balancer Layer**
+- **Load Balancer**: Traffic distribution, Web Application Firewall (WAF)
 
-### Load Balancer Layer:
-- **Primary Load Balancer**: Main traffic distribution
-- **Secondary Load Balancer**: Failover and redundancy
-- **Web Application Firewall**: Security and DDoS protection
+#### **4. Application Layer**
+- **API Gateway Cluster**: Authentication, rate limiting, request routing
+- **Microservices Cluster**: 
+  - **User Services**: Authentication & profile management
+  - **Product Services**: Catalog, search, inventory
+  - **Shopping Services**: Cart, orders, payments
+  - **AR Services**: Augmented reality & media
+  - **Support Services**: Chat & notifications
 
-### API Gateway Cluster:
-- **API Gateway Instances**: Multiple instances for high availability
-- **Auth Gateway**: Centralized authentication
-- **Rate Limiter**: API usage control
-- **CORS Handler**: Cross-origin resource sharing
+#### **5. Data Layer**
+- **Primary Databases**: User, Product, Order, Payment data
+- **Specialized Storage**: Cache, search index, AR models, media files
 
-### Application Servers:
-
-#### **User Management Cluster:**
-- **Auth Service**: Authentication and authorization (2 instances)
-- **User Service**: User profile management (2 instances)
-
-#### **Product Management Cluster:**
-- **Product Service**: Product operations (2 instances)
-- **Search Service**: Product search (2 instances)
-- **Inventory Service**: Stock management (2 instances)
-
-#### **Shopping Cluster:**
-- **Cart Service**: Shopping cart (2 instances)
-- **Order Service**: Order processing (2 instances)
-- **Payment Service**: Payment handling (2 instances)
-
-#### **AR & Media Cluster:**
-- **AR Service**: Augmented reality (2 instances)
-- **Media Service**: Media management (2 instances)
-
-#### **Support Cluster:**
-- **Chat Service**: Customer support (2 instances)
-- **Notification Service**: Notifications (2 instances)
-
-#### **Analytics Cluster:**
-- **Analytics Service**: Data analysis (2 instances)
-- **Report Service**: Reporting (2 instances)
-
-### Database Layer:
-
-#### **Primary Database Cluster:**
-- **User Database**: Master-slave replication (1 master, 2 slaves)
-- **Product Database**: Master-slave replication (1 master, 2 slaves)
-- **Order Database**: Master-slave replication (1 master, 2 slaves)
-- **Payment Database**: Master-slave replication (1 master, 2 slaves)
-
-#### **Specialized Storage:**
-- **Redis Cluster**: Session data and caching
-- **Elasticsearch Cluster**: Product search indexing
-- **AR Storage Cluster**: 3D model storage
-- **Media Storage Cluster**: Image and video storage
-
-### External Services:
+#### **6. External Services**
 - **Payment Gateway**: Third-party payment processing
-- **SMTP Provider**: Email delivery
-- **SMS Provider**: Text message delivery
-- **Push Notification Service**: Mobile push notifications
+- **Communication Services**: Email, SMS, push notifications
 
-### Monitoring & Logging:
-- **Monitoring System**: Performance and health monitoring
+#### **7. Monitoring Layer**
+- **Monitoring System**: Performance & health tracking
 - **Logging System**: Centralized log collection
-- **Alerting System**: Automated alerts and notifications
+
+### **Data Flow:**
+1. **Client** → **CDN** → **Load Balancer** → **API Gateway**
+2. **API Gateway** → **Microservices** → **Databases**
+3. **Services** → **External APIs** (payment, communication)
+4. **Monitoring** → **All Services** (health checks & logging)
+
+### **Key Features:**
+- **Clear separation** of hardware nodes and software components
+- **Scalable architecture** with multiple service instances
+- **High availability** with load balancing and redundancy
+- **Security** with WAF and authentication layers
+- **Performance** with CDN and caching
 
 ### Deployment Features:
 
