@@ -2,282 +2,199 @@
 
 ```mermaid
 graph TB
-    subgraph "Frontend Layer"
-        subgraph "Mobile App"
-            MA[Mobile App]
-            AR_UI[AR Interface]
-            CAMERA[Camera Module]
-            SENSORS[Sensor Module]
+    subgraph "Frontend Components"
+        subgraph "Mobile Application"
+            MA[Mobile App<br/>React Native/Flutter]
+            AR_UI[AR Interface<br/>AR Framework Integration]
         end
         
         subgraph "Web Application"
-            WA[Web App]
-            ADMIN_UI[Admin Dashboard]
-            SUPPORT_UI[Support Interface]
+            WA[Web App<br/>React/Angular]
+            ADMIN_UI[Admin Dashboard<br/>Management Interface]
+            SUPPORT_UI[Support Portal<br/>Customer Service]
         end
     end
 
     subgraph "API Gateway Layer"
-        API_GW[API Gateway]
-        AUTH_GW[Authentication Gateway]
-        RATE_LIMITER[Rate Limiter]
-        LOAD_BALANCER[Load Balancer]
+        API_GW[API Gateway<br/>Request Routing & Auth]
+        AUTH_GW[Authentication Gateway<br/>JWT & OAuth]
+        RATE_LIMITER[Rate Limiter<br/>Request Throttling]
     end
 
-    subgraph "Microservices Layer"
+    subgraph "Core Services"
         subgraph "User Management"
-            AUTH_SVC[Authentication Service]
-            USER_SVC[User Service]
-            PROFILE_SVC[Profile Service]
+            AUTH_SVC[Authentication Service<br/>Login & Registration]
+            USER_SVC[User Service<br/>Profile Management]
         end
         
         subgraph "Product Management"
-            PRODUCT_SVC[Product Service]
-            CATALOG_SVC[Catalog Service]
-            INVENTORY_SVC[Inventory Service]
-            SEARCH_SVC[Search Service]
+            PRODUCT_SVC[Product Service<br/>Catalog Operations]
+            SEARCH_SVC[Search Service<br/>Product Discovery]
+            INVENTORY_SVC[Inventory Service<br/>Stock Management]
         end
         
         subgraph "Shopping Experience"
-            CART_SVC[Cart Service]
-            ORDER_SVC[Order Service]
-            PAYMENT_SVC[Payment Service]
-            SHIPPING_SVC[Shipping Service]
+            CART_SVC[Cart Service<br/>Shopping Cart]
+            ORDER_SVC[Order Service<br/>Order Processing]
+            PAYMENT_SVC[Payment Service<br/>Transaction Handling]
         end
         
         subgraph "AR & Media"
-            AR_SVC[AR Service]
-            MEDIA_SVC[Media Service]
-            MODEL_SVC[3D Model Service]
+            AR_SVC[AR Service<br/>3D Model Management]
+            MEDIA_SVC[Media Service<br/>Image & Video Handling]
         end
         
         subgraph "Support & Communication"
-            CHAT_SVC[Chat Service]
-            NOTIFICATION_SVC[Notification Service]
-            EMAIL_SVC[Email Service]
-            SMS_SVC[SMS Service]
-        end
-        
-        subgraph "Analytics & Reporting"
-            ANALYTICS_SVC[Analytics Service]
-            REPORT_SVC[Report Service]
-            FEEDBACK_SVC[Feedback Service]
+            CHAT_SVC[Chat Service<br/>Real-time Support]
+            NOTIFICATION_SVC[Notification Service<br/>Alerts & Messages]
         end
     end
 
-    subgraph "Data Layer"
+    subgraph "Data Storage"
         subgraph "Primary Databases"
-            USER_DB[(User Database)]
-            PRODUCT_DB[(Product Database)]
-            ORDER_DB[(Order Database)]
-            PAYMENT_DB[(Payment Database)]
+            USER_DB[(User Database<br/>PostgreSQL)]
+            PRODUCT_DB[(Product Database<br/>PostgreSQL)]
+            ORDER_DB[(Order Database<br/>PostgreSQL)]
+            PAYMENT_DB[(Payment Database<br/>PostgreSQL)]
         end
         
         subgraph "Specialized Storage"
-            AR_STORAGE[(AR Models Storage)]
-            MEDIA_STORAGE[(Media Storage)]
-            CACHE[(Redis Cache)]
-            SEARCH_INDEX[(Elasticsearch)]
+            REDIS[(Redis Cache<br/>Session & Cart Data)]
+            ELASTICSEARCH[(Elasticsearch<br/>Search Index)]
+            AR_STORAGE[(AR Storage<br/>3D Models & Assets)]
+            MEDIA_STORAGE[(Media Storage<br/>Images & Videos)]
         end
     end
 
-    subgraph "External Services"
-        PG[Payment Gateway]
-        SMTP_PROVIDER[SMTP Provider]
-        SMS_PROVIDER[SMS Provider]
-        CDN[Content Delivery Network]
-        AR_FRAMEWORK[AR Framework]
+    subgraph "External Integrations"
+        PG[Payment Gateway<br/>Stripe/PayPal]
+        SMTP[Email Service<br/>SendGrid/AWS SES]
+        SMS[SMS Service<br/>Twilio]
+        PUSH[Push Notifications<br/>Firebase/APNS]
     end
 
     %% Frontend to API Gateway connections
     MA --> API_GW
+    AR_UI --> API_GW
     WA --> API_GW
     ADMIN_UI --> API_GW
     SUPPORT_UI --> API_GW
-    AR_UI --> API_GW
 
-    %% API Gateway to services
+    %% API Gateway internal connections
     API_GW --> AUTH_GW
     API_GW --> RATE_LIMITER
-    API_GW --> LOAD_BALANCER
 
-    %% Authentication flow
+    %% API Gateway to Core Services
     AUTH_GW --> AUTH_SVC
-    AUTH_SVC --> USER_SVC
-    USER_SVC --> PROFILE_SVC
+    AUTH_GW --> USER_SVC
+    API_GW --> PRODUCT_SVC
+    API_GW --> SEARCH_SVC
+    API_GW --> INVENTORY_SVC
+    API_GW --> CART_SVC
+    API_GW --> ORDER_SVC
+    API_GW --> PAYMENT_SVC
+    API_GW --> AR_SVC
+    API_GW --> MEDIA_SVC
+    API_GW --> CHAT_SVC
+    API_GW --> NOTIFICATION_SVC
 
-    %% Product management flow
-    PRODUCT_SVC --> CATALOG_SVC
-    PRODUCT_SVC --> INVENTORY_SVC
-    PRODUCT_SVC --> SEARCH_SVC
-    SEARCH_SVC --> CATALOG_SVC
-
-    %% Shopping flow
-    CART_SVC --> PRODUCT_SVC
-    CART_SVC --> INVENTORY_SVC
-    ORDER_SVC --> CART_SVC
-    ORDER_SVC --> PAYMENT_SVC
-    ORDER_SVC --> SHIPPING_SVC
-    PAYMENT_SVC --> SHIPPING_SVC
-
-    %% AR and media flow
-    AR_SVC --> MODEL_SVC
-    AR_SVC --> MEDIA_SVC
-    MODEL_SVC --> MEDIA_SVC
-
-    %% Support and communication flow
-    CHAT_SVC --> NOTIFICATION_SVC
-    NOTIFICATION_SVC --> EMAIL_SVC
-    NOTIFICATION_SVC --> SMS_SVC
-
-    %% Analytics flow
-    ANALYTICS_SVC --> REPORT_SVC
-    FEEDBACK_SVC --> ANALYTICS_SVC
-
-    %% Database connections
+    %% Service to Database connections
     AUTH_SVC --> USER_DB
     USER_SVC --> USER_DB
-    PROFILE_SVC --> USER_DB
-    
     PRODUCT_SVC --> PRODUCT_DB
-    CATALOG_SVC --> PRODUCT_DB
+    SEARCH_SVC --> ELASTICSEARCH
     INVENTORY_SVC --> PRODUCT_DB
-    SEARCH_SVC --> SEARCH_INDEX
-    
-    CART_SVC --> CACHE
+    CART_SVC --> REDIS
     ORDER_SVC --> ORDER_DB
     PAYMENT_SVC --> PAYMENT_DB
-    SHIPPING_SVC --> ORDER_DB
-    
     AR_SVC --> AR_STORAGE
-    MODEL_SVC --> AR_STORAGE
     MEDIA_SVC --> MEDIA_STORAGE
-    
-    CHAT_SVC --> CACHE
-    NOTIFICATION_SVC --> CACHE
-    
-    ANALYTICS_SVC --> USER_DB
-    ANALYTICS_SVC --> PRODUCT_DB
-    ANALYTICS_SVC --> ORDER_DB
-    REPORT_SVC --> USER_DB
-    REPORT_SVC --> PRODUCT_DB
-    REPORT_SVC --> ORDER_DB
-    FEEDBACK_SVC --> PRODUCT_DB
+    CHAT_SVC --> REDIS
+    NOTIFICATION_SVC --> REDIS
 
     %% External service connections
     PAYMENT_SVC --> PG
-    EMAIL_SVC --> SMTP_PROVIDER
-    SMS_SVC --> SMS_PROVIDER
-    MEDIA_SVC --> CDN
-    AR_SVC --> AR_FRAMEWORK
+    NOTIFICATION_SVC --> SMTP
+    NOTIFICATION_SVC --> SMS
+    NOTIFICATION_SVC --> PUSH
 
-    %% Mobile app specific connections
-    CAMERA --> AR_UI
-    SENSORS --> AR_UI
-    AR_UI --> AR_SVC
+    %% Component styling
+    classDef frontend fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef gateway fill:#e1f5fe,stroke:#0277bd,stroke-width:2px
+    classDef service fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef database fill:#e0f2f1,stroke:#00695c,stroke-width:2px
+    classDef external fill:#fafafa,stroke:#424242,stroke-width:2px
 
-    %% Component interfaces
-    classDef service fill:#e1f5fe
-    classDef database fill:#f3e5f5
-    classDef external fill:#fff3e0
-    classDef frontend fill:#e8f5e8
-    classDef gateway fill:#fce4ec
-
-    class AUTH_SVC,USER_SVC,PROFILE_SVC,PRODUCT_SVC,CATALOG_SVC,INVENTORY_SVC,SEARCH_SVC,CART_SVC,ORDER_SVC,PAYMENT_SVC,SHIPPING_SVC,AR_SVC,MEDIA_SVC,MODEL_SVC,CHAT_SVC,NOTIFICATION_SVC,EMAIL_SVC,SMS_SVC,ANALYTICS_SVC,REPORT_SVC,FEEDBACK_SVC service
-    class USER_DB,PRODUCT_DB,ORDER_DB,PAYMENT_DB,AR_STORAGE,MEDIA_STORAGE,CACHE,SEARCH_INDEX database
-    class PG,SMTP_PROVIDER,SMS_PROVIDER,CDN,AR_FRAMEWORK external
-    class MA,AR_UI,CAMERA,SENSORS,WA,ADMIN_UI,SUPPORT_UI frontend
-    class API_GW,AUTH_GW,RATE_LIMITER,LOAD_BALANCER gateway
+    class MA,AR_UI,WA,ADMIN_UI,SUPPORT_UI frontend
+    class API_GW,AUTH_GW,RATE_LIMITER gateway
+    class AUTH_SVC,USER_SVC,PRODUCT_SVC,SEARCH_SVC,INVENTORY_SVC,CART_SVC,ORDER_SVC,PAYMENT_SVC,AR_SVC,MEDIA_SVC,CHAT_SVC,NOTIFICATION_SVC service
+    class USER_DB,PRODUCT_DB,ORDER_DB,PAYMENT_DB,REDIS,ELASTICSEARCH,AR_STORAGE,MEDIA_STORAGE database
+    class PG,SMTP,SMS,PUSH external
 ```
 
 ## Component Architecture Description
 
-### Frontend Layer:
+### **Software Components & Their Responsibilities:**
 
-#### **Mobile Application:**
-- **Mobile App**: Main mobile application interface
-- **AR Interface**: Augmented reality user interface
-- **Camera Module**: Camera access and image processing
-- **Sensor Module**: Device sensors (gyroscope, accelerometer)
+#### **1. Frontend Components**
+- **Mobile App**: React Native/Flutter application for iOS/Android
+- **AR Interface**: AR framework integration (ARKit/ARCore)
+- **Web App**: React/Angular web application
+- **Admin Dashboard**: Management interface for administrators
+- **Support Portal**: Customer service interface
 
-#### **Web Application:**
-- **Web App**: Customer-facing web interface
-- **Admin Dashboard**: Administrative management interface
-- **Support Interface**: Customer support portal
+#### **2. API Gateway Layer**
+- **API Gateway**: Central entry point, request routing, load balancing
+- **Authentication Gateway**: JWT token validation, OAuth integration
+- **Rate Limiter**: Request throttling and abuse prevention
 
-### API Gateway Layer:
-- **API Gateway**: Central entry point for all requests
-- **Authentication Gateway**: Handles authentication and authorization
-- **Rate Limiter**: Prevents API abuse
-- **Load Balancer**: Distributes traffic across services
+#### **3. Core Services (Microservices)**
 
-### Microservices Layer:
+##### **User Management:**
+- **Authentication Service**: User login, registration, password management
+- **User Service**: Profile management, user preferences, account settings
 
-#### **User Management Services:**
-- **Authentication Service**: User login, registration, JWT management
-- **User Service**: User profile and account management
-- **Profile Service**: User preferences and settings
+##### **Product Management:**
+- **Product Service**: Product CRUD operations, catalog management
+- **Search Service**: Product search, filtering, recommendations
+- **Inventory Service**: Stock management, availability tracking
 
-#### **Product Management Services:**
-- **Product Service**: Product CRUD operations
-- **Catalog Service**: Product categorization and organization
-- **Inventory Service**: Stock management and availability
-- **Search Service**: Product search and filtering
+##### **Shopping Experience:**
+- **Cart Service**: Shopping cart operations, item management
+- **Order Service**: Order processing, status tracking, fulfillment
+- **Payment Service**: Payment processing, transaction management
 
-#### **Shopping Experience Services:**
-- **Cart Service**: Shopping cart management
-- **Order Service**: Order processing and tracking
-- **Payment Service**: Payment processing and transactions
-- **Shipping Service**: Shipping calculations and tracking
+##### **AR & Media:**
+- **AR Service**: 3D model management, AR session handling
+- **Media Service**: Image/video processing, storage management
 
-#### **AR & Media Services:**
-- **AR Service**: Augmented reality functionality
-- **Media Service**: Image and video management
-- **3D Model Service**: 3D model storage and retrieval
-
-#### **Support & Communication Services:**
+##### **Support & Communication:**
 - **Chat Service**: Real-time customer support chat
-- **Notification Service**: Push notifications and alerts
-- **Email Service**: Email communications
-- **SMS Service**: Text message notifications
+- **Notification Service**: Email, SMS, push notifications
 
-#### **Analytics & Reporting Services:**
-- **Analytics Service**: User behavior and business analytics
-- **Report Service**: Business intelligence and reporting
-- **Feedback Service**: Customer reviews and ratings
+#### **4. Data Storage**
+- **Primary Databases**: PostgreSQL for structured data
+- **Redis Cache**: Session data, shopping cart, temporary storage
+- **Elasticsearch**: Product search indexing
+- **AR Storage**: 3D models and AR assets
+- **Media Storage**: Images, videos, documents
 
-### Data Layer:
+#### **5. External Integrations**
+- **Payment Gateway**: Stripe/PayPal for payment processing
+- **Email Service**: SendGrid/AWS SES for email delivery
+- **SMS Service**: Twilio for text messages
+- **Push Notifications**: Firebase/APNS for mobile notifications
 
-#### **Primary Databases:**
-- **User Database**: User accounts and profiles
-- **Product Database**: Product catalog and inventory
-- **Order Database**: Order history and tracking
-- **Payment Database**: Payment transactions and history
+### **Key Component Interactions:**
 
-#### **Specialized Storage:**
-- **AR Models Storage**: 3D models for AR experiences
-- **Media Storage**: Images, videos, and documents
-- **Redis Cache**: Session data and temporary storage
-- **Elasticsearch**: Product search and indexing
+1. **Frontend** → **API Gateway** → **Core Services**
+2. **Services** → **Databases** (data persistence)
+3. **Services** → **External APIs** (third-party integrations)
+4. **Authentication** → **All Services** (security)
 
-### External Services:
-- **Payment Gateway**: Third-party payment processing
-- **SMTP Provider**: Email delivery service
-- **SMS Provider**: Text message delivery service
-- **Content Delivery Network**: Fast content delivery
-- **AR Framework**: Augmented reality SDK
-
-### Key Component Interactions:
-
-1. **User Authentication Flow**: Frontend → API Gateway → Auth Service → User Database
-2. **Product Search Flow**: Frontend → API Gateway → Search Service → Elasticsearch
-3. **AR Experience Flow**: Mobile App → AR Service → 3D Model Service → AR Storage
-4. **Order Processing Flow**: Frontend → Order Service → Payment Service → Payment Gateway
-5. **Support Chat Flow**: Frontend → Chat Service → Notification Service → Real-time updates
-
-### Scalability Features:
-- **Microservices Architecture**: Independent service scaling
-- **Load Balancing**: Traffic distribution
-- **Caching**: Redis for performance optimization
-- **CDN**: Fast content delivery
-- **Database Sharding**: Horizontal scaling capability 
+### **Architecture Benefits:**
+- **Modular Design**: Independent, scalable components
+- **Technology Flexibility**: Different tech stacks per component
+- **Scalability**: Horizontal scaling of individual services
+- **Maintainability**: Clear separation of concerns
+- **Security**: Centralized authentication and authorization 
