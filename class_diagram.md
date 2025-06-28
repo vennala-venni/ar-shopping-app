@@ -159,30 +159,30 @@ classDiagram
         +exportReport()
     }
 
-    User ||--o{ Order : places
-    User ||--o{ Feedback : submits
-    User ||--o{ Chat : participates
-    User ||--|| Cart : has
+    User --> Order
+    User --> Feedback
+    User --> Chat
+    User --> Cart
 
-    Admin ||--o{ Report : generates
-    Admin ||--o{ Product : manages
-    Admin ||--o{ Order : views
+    Admin --> Report
+    Admin --> Product
+    Admin --> Order
 
-    CustomerSupport ||--o{ Chat : handles
+    CustomerSupport --> Chat
 
-    Product ||--o{ CartItem : contained_in
-    Product ||--o{ OrderItem : ordered_in
-    Product ||--o{ Feedback : receives
-    Product ||--|| ARModel : has
-    Product ||--|| Category : belongs_to
+    Product --> CartItem
+    Product --> OrderItem
+    Product --> Feedback
+    Product --> ARModel
+    Product --> Category
 
-    Cart ||--o{ CartItem : contains
-    Order ||--o{ OrderItem : contains
-    Order ||--|| Payment : has
+    Cart --> CartItem
+    Order --> OrderItem
+    Order --> Payment
 
-    Chat ||--o{ Message : contains
+    Chat --> Message
 
-    Category ||--o{ Product : contains
+    Category --> Product
 ```
 
 ## Class Diagram Description
